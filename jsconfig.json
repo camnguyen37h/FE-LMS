@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/assets*": ["./assets*"],
+      "@/components*": ["./components*"],
+      "@/layouts*": ["./layouts*"],
+      "@/middleware*": ["./middleware*"],
+      "@/pages*": ["./pages*"],
+      "@/plugins*": ["./plugins*"],
+      "@/static*": ["./static*"],
+      "@/store": ["./store/index.ts"],
+      "@/store/*": ["./store/*"],
+      "@/includes*": ["./includes*"],
+      "@/styles*": ["./assets/styles*"],
+      "~/*": ["./*"],
+      "@/*": ["./*"]
+    }
+  },
+  "exclude": ["node_modules", ".nuxt", "dist"]
+}
