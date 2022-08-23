@@ -13,9 +13,13 @@ module.exports = {
         gray: {
           100: '#E0E6E9',
           500: '#ABBBC2',
+          600: '#FAFAFC',
           700: '#393C49',
           900: '#1F1D2B',
           800: '#E5E5E5',
+        },
+        green: {
+          100: '#65AF54',
         },
         primary: '#EB966A',
         accent: {
@@ -35,6 +39,7 @@ module.exports = {
     fontFamily: {
       'font-poppins': ['Poppins'],
     },
+    flex: {},
   },
   variants: {},
   plugins: [],

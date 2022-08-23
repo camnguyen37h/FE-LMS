@@ -1,6 +1,6 @@
 <template>
-  <div class="footer">
-    <h1>Admin Footer</h1>
+  <div class="footer ml-24 p-4 bottom-0">
+    <h1>© 2022 Learning Management System.</h1>
   </div>
 </template>
 

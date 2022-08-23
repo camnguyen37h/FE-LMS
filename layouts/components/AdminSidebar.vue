@@ -1,5 +1,5 @@
 <template>
-  <section class="flex flex-col gap-y-4 items-center py-8 w-24 bg-gray-900">
+  <section class="flex flex-col gap-y-4 items-center py-8 w-24 bg-gray-900 h-screen fixed">
     <button class="p-2 text-white font-bold text-2xl">LMS</button>
     <div class="flex flex-col gap-y-4 items-end self-end">
       <div v-for="(menu, index) in menus" :key="index">
@@ -25,9 +25,6 @@ import SettingsIcon from '@/assets/icons/settings.svg?inline';
 import LogoutIcon from '@/assets/icons/logout.svg?inline';
 
 export default {
-  props: {
-    pageName: String,
-  },
   components: {
     HomeIcon,
     DiscountIcon,
@@ -45,7 +42,6 @@ export default {
         { name: 'Teachers', icon: DiscountIcon, path: '/admin/teachers' },
         { name: 'Students', icon: GraphIcon, path: '/admin/students' },
         { name: 'Notifications', icon: NotificationIcon, path: '/admin/notifications' },
-        { name: 'Settings', icon: SettingsIcon, path: '/admin/settings' },
         { name: 'Logout', icon: LogoutIcon, path: '/admin/logout' },
       ],
     };
@@ -56,7 +52,7 @@ export default {
 <style lang="scss" scoped>
 a.nuxt-link-exact-active.nuxt-link-active {
   .active-menu {
-    @apply bg-white rounded-l-xl relative before:absolute before:w-4 before:h-8 before:-top-8 before:rounded-br-xl before:right-0 before:shadow-inverse-top after:absolute after:w-4 after:h-8 after:-bottom-8 after:rounded-tr-xl after:right-0 after:shadow-inverse-bottom;
+    @apply bg-gray-600 rounded-l-xl relative before:absolute before:w-4 before:h-8 before:-top-8 before:rounded-br-xl before:right-0 before:shadow-inverse-top after:absolute after:w-4 after:h-8 after:-bottom-8 after:rounded-tr-xl after:right-0 after:shadow-inverse-bottom;
 
     button {
       @apply text-white shadow-primary bg-primary;
