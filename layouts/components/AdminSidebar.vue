@@ -39,10 +39,9 @@ export default {
       activeMenu: 'Dashboard',
       menus: [
         { name: 'Dashboard', icon: HomeIcon, path: '/admin' },
-        { name: 'Teachers', icon: DiscountIcon, path: '/admin/teachers' },
-        { name: 'Students', icon: GraphIcon, path: '/admin/students' },
-        { name: 'Notifications', icon: NotificationIcon, path: '/admin/notifications' },
-        { name: 'Logout', icon: LogoutIcon, path: '/admin/logout' },
+        { name: 'Classes', icon: DiscountIcon, path: '/admin/classes' },
+        { name: 'Teachers', icon: GraphIcon, path: '/admin/teachers' },
+        { name: 'Students', icon: MessageIcon, path: '/admin/students' },
       ],
     };
   },

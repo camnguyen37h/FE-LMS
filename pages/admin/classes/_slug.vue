@@ -13,7 +13,9 @@
         <div class="flex flex-col gap-y-3 justify-center">
           <span class="font-bold">Mô tả khóa học</span>
           <span class="text-justify"
-            >Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae cumque quae sequi dolorum praesentium eveniet vero temporibus non facere velit consequatur perferendis sit omnis, at accusamus, qui possimus reiciendis est.</span
+            >Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae cumque quae sequi dolorum praesentium
+            eveniet vero temporibus non facere velit consequatur perferendis sit omnis, at accusamus, qui possimus
+            reiciendis est.</span
           >
 
           <span class="font-bold">Mô tả khóa học</span>
@@ -459,9 +461,8 @@
           </div>
          </div> -->
         <div class="flex flex-col gap-y-3 justify-between w-full h-full">
-          <div class="flex justify-center items-center border bg-white rounded-lg overflow-hidden">
-            <!--                        <img src="@/assets/images/qr-code.jpg" alt="qr-code" />-->
-            <qrcode-vue v-if="qrcodeValue" :value="qrcodeValue" :size="200" level="H" class="custom-qrcode" />
+          <div class="flex justify-center items-center overflow-hidden border bg-white rounded-lg custom-qrcode">
+            <qrcode-vue v-if="qrcodeValue" :value="qrcodeValue" :size="250" level="H" class="" />
           </div>
           <div class="">
             <button
@@ -489,13 +490,12 @@ export default {
   },
   data() {
     return {
-      qrcodeValue: `${process.env.APP_URL}/take-roll-call/`,
+      data: [],
+      qrcodeValue: `${process.env.baseUrl}take-roll-call/`,
     };
   },
   methods: {
-    handleGenerateQrcode() {
-      console.log('handleGenerateQrcode');
-    },
+    handleGenerateQrcode() {},
   },
 };
 </script>
@@ -536,5 +536,13 @@ export default {
 
 button {
   box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.15);
+}
+
+.custom-qrcode {
+  width: 100%;
+  &:after {
+    content: '';
+    padding-bottom: 100%;
+  }
 }
 </style>

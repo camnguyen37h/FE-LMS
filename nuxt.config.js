@@ -2,6 +2,9 @@ import alias from './utils/alias';
 
 export default {
   alias,
+  env: {
+    baseUrl: process.env.BASE_URL,
+  },
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     title: 'LMS-CMC',

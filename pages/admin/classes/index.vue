@@ -13,7 +13,9 @@
         <div class="flex flex-col gap-y-3 justify-center">
           <span class="font-bold">Mô tả khóa học</span>
           <span class="text-justify"
-            >Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae cumque quae sequi dolorum praesentium eveniet vero temporibus non facere velit consequatur perferendis sit omnis, at accusamus, qui possimus reiciendis est.</span
+            >Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae cumque quae sequi dolorum praesentium
+            eveniet vero temporibus non facere velit consequatur perferendis sit omnis, at accusamus, qui possimus
+            reiciendis est.</span
           >
 
           <span class="font-bold">Mô tả khóa học</span>
