@@ -5,6 +5,7 @@ export default {
     try {
       await getClassDetail(classId).then(({ status, data }) => {
         if ((status === 200 || status === 201) && data) {
+          console.log('data = ', data);
           commit('setClassDetail', data);
           return {
             status: true,

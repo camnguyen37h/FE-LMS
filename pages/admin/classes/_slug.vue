@@ -4,11 +4,14 @@
       <article class="flex flex-col w-full py-7 px-6 border rounded-lg border-gray-300 bg-white class-base-info">
         <div class="flex flex-col gap-y-3 justify-center">
           <div class="flex flex-row justify-between">
-            <span class="font-bold">{{ classDetail._id }}</span>
+            <span class="font-bold">Conversation English lesson</span>
             <span>12 bài học</span>
           </div>
           <span class="border rounded-sm border-green-100 w-5"></span>
-          <span class="font-bold">Trạng thái: <span class="text-green-100">Đang học</span></span>
+          <span class="font-bold"
+            >Trạng thái:
+            <span class="text-green-100" :class="{ 'text-red-500': doneCourseClassName }">{{ statusClass }}</span></span
+          >
         </div>
         <div class="flex flex-col gap-y-3 justify-center">
           <span class="font-bold">Mô tả khóa học</span>
@@ -476,7 +479,7 @@
             </button>
 
             <button
-              @click="printThis()"
+              @click="handleDownloadCanvasImage()"
               class="py-3.5 rounded-lg w-full border border-green-100 bg-green-100 text-white text-sm font-semibold capitalize"
             >
               lưu mã QR
@@ -493,6 +496,7 @@ import QrcodeVue from 'qrcode.vue';
 import html2canvas from 'html2canvas';
 import { v1 as uuid } from 'uuid';
 import { mapState } from 'vuex';
+import dayjs from 'dayjs';
 import DownloadIcon from '@/assets/icons/download.svg?inline';
 
 export default {
@@ -507,35 +511,34 @@ export default {
       qrcodeValue: `${process.env.baseUrl}take-roll-call/`,
     };
   },
-  async asyncData({ store }) {
-    const classId = '6306efc3213ce8b98baa91c0';
+  async asyncData({ params, store }) {
+    const classId = params.slug;
     await Promise.all([store.dispatch('classes/actFetchClassById', { classId })]);
+  },
+  mounted() {
+    this.statusClass;
   },
   computed: {
     ...mapState({
       classDetail: (state) => state.classes.classDetail,
     }),
-  },
-  mounted() {
-    console.log('classDetail = ', this.classDetail);
+    doneCourseClassName() {
+      return dayjs().diff(this.classDetail.QRCode.endTime) > 0;
+    },
+    statusClass() {
+      return dayjs().diff(this.classDetail.QRCode.endTime) > 0
+        ? 'Đã hoàn thành'
+        : dayjs().diff(this.classDetail.QRCode.startTime) > 0
+        ? 'Đang học'
+        : 'Chưa học';
+    },
+    generateQrCode() {
+      return `${process.env.baseUrl}take-roll-call/`;
+    },
   },
   methods: {
-    generateLink(fileName, data) {
-      var link = document.createElement('a');
-      link.download = fileName;
-      link.href = data;
-      return link;
-    },
     handleGenerateQrcode() {},
-    handleDownloadCanvasImage() {
-      var canvas = document.querySelector('canvas');
-      var image = canvas.toDataURL('image/png', 1.0).replace('image/png', 'image/octet-stream');
-      var link = document.createElement('a');
-      link.download = 'my-image.png';
-      link.href = image;
-      link.click();
-    },
-    async printThis() {
+    async handleDownloadCanvasImage() {
       const el = this.$refs.printcontent;
       const options = {
         type: 'dataURL',
