@@ -1,5 +1,3 @@
-<svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M1.66602 7.08331V7.91665C1.66602 8.13766 1.75381 8.34962 1.91009 8.5059C2.06637 8.66218 2.27834 8.74998 2.49935 8.74998H7.49935C7.72036 8.74998 7.93232 8.66218 8.0886 8.5059C8.24488 8.34962 8.33268 8.13766 8.33268 7.91665V7.08331" stroke="black" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M2.91602 4.58331L4.99935 6.66665L7.08268 4.58331" stroke="black" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M5 1.66669V6.66669" stroke="black" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+<svg id="Flat" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" height="64" width="64">
+  <path d="M80.34375,115.668a7.99983,7.99983,0,1,1,11.3125-11.31445L120,132.6897V40a8,8,0,0,1,16,0v92.6897l28.34375-28.33618a7.99983,7.99983,0,1,1,11.3125,11.31445l-42,41.98926a7.99945,7.99945,0,0,1-11.3125,0ZM216,144a8.00039,8.00039,0,0,0-8,8v56H48V152a8,8,0,0,0-16,0v56a16.01833,16.01833,0,0,0,16,16H208a16.01833,16.01833,0,0,0,16-16V152A8.00039,8.00039,0,0,0,216,144Z"></path>
 </svg>

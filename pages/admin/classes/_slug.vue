@@ -460,16 +460,23 @@
             <span>1 học viên (10%/1 người)</span>
           </div>
          </div> -->
-        <div class="flex flex-col gap-y-3 justify-between w-full h-full">
+        <div class="flex flex-col gap-y-5 justify-between w-full h-full">
           <div class="flex justify-center items-center overflow-hidden border bg-white rounded-lg custom-qrcode">
-            <qrcode-vue v-if="qrcodeValue" :value="qrcodeValue" :size="250" level="H" class="" />
+            <qrcode-vue v-if="qrcodeValue" :value="qrcodeValue" :size="250" level="H" class="position" id="qr-code" />
           </div>
-          <div class="">
+          <div class="flex gap-x-3">
             <button
               @click="handleGenerateQrcode"
+              class="py-3.5 rounded-lg w-full border border-green-100 text-sm font-semibold capitalize"
+            >
+              cập nhật QR code
+            </button>
+
+            <button
+              @click="handleDownloadCanvasImage(this)"
               class="py-3.5 rounded-lg w-full border border-green-100 bg-green-100 text-white text-sm font-semibold capitalize"
             >
-              generate QR code
+              lưu mã QR
             </button>
           </div>
         </div>
@@ -481,6 +488,7 @@
 <script>
 import QrcodeVue from 'qrcode.vue';
 import DownloadIcon from '@/assets/icons/download.svg?inline';
+import { SVG2PNG } from '@/utils/functions';
 
 export default {
   layout: 'admin',
@@ -495,7 +503,21 @@ export default {
     };
   },
   methods: {
+    generateLink(fileName, data) {
+      var link = document.createElement('a');
+      link.download = fileName;
+      link.href = data;
+      return link;
+    },
     handleGenerateQrcode() {},
+    handleDownloadCanvasImage() {
+      var canvas = document.querySelector('canvas');
+      var image = canvas.toDataURL('image/png', 1.0).replace('image/png', 'image/octet-stream');
+      var link = document.createElement('a');
+      link.download = 'my-image.png';
+      link.href = image;
+      link.click();
+    },
   },
 };
 </script>
@@ -536,6 +558,12 @@ export default {
 
 button {
   box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.15);
+
+  &:hover,
+  &:focus-visible,
+  &:active {
+    opacity: 0.75;
+  }
 }
 
 .custom-qrcode {

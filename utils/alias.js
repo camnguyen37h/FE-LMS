@@ -13,6 +13,7 @@ const folders = [
   'typings',
   'config',
   'server',
+  'utils',
 ];
 const aliases = {};
 
