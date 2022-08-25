@@ -4,7 +4,7 @@
       <article class="flex flex-col w-full py-7 px-6 border rounded-lg border-gray-300 bg-white class-base-info">
         <div class="flex flex-col gap-y-3 justify-center">
           <div class="flex flex-row justify-between">
-            <span class="font-bold">Conversation English lesson</span>
+            <span class="font-bold">{{ classDetail._id }}</span>
             <span>12 bài học</span>
           </div>
           <span class="border rounded-sm border-green-100 w-5"></span>
@@ -461,8 +461,11 @@
           </div>
          </div> -->
         <div class="flex flex-col gap-y-5 justify-between w-full h-full">
-          <div class="flex justify-center items-center overflow-hidden border bg-white rounded-lg custom-qrcode">
-            <qrcode-vue v-if="qrcodeValue" :value="qrcodeValue" :size="250" level="H" class="position" id="qr-code" />
+          <div
+            ref="printcontent"
+            class="flex justify-center items-center overflow-hidden border bg-white rounded-lg custom-qrcode"
+          >
+            <qrcode-vue v-if="qrcodeValue" :value="qrcodeValue" :size="300" level="H" class="position" id="qr-code" />
           </div>
           <div class="flex gap-x-3">
             <button
@@ -473,7 +476,7 @@
             </button>
 
             <button
-              @click="handleDownloadCanvasImage(this)"
+              @click="printThis()"
               class="py-3.5 rounded-lg w-full border border-green-100 bg-green-100 text-white text-sm font-semibold capitalize"
             >
               lưu mã QR
@@ -487,8 +490,10 @@
 
 <script>
 import QrcodeVue from 'qrcode.vue';
+import html2canvas from 'html2canvas';
+import { v1 as uuid } from 'uuid';
+import { mapState } from 'vuex';
 import DownloadIcon from '@/assets/icons/download.svg?inline';
-import { SVG2PNG } from '@/utils/functions';
 
 export default {
   layout: 'admin',
@@ -501,6 +506,18 @@ export default {
       data: [],
       qrcodeValue: `${process.env.baseUrl}take-roll-call/`,
     };
+  },
+  async asyncData({ store }) {
+    const classId = '6306efc3213ce8b98baa91c0';
+    await Promise.all([store.dispatch('classes/actFetchClassById', { classId })]);
+  },
+  computed: {
+    ...mapState({
+      classDetail: (state) => state.classes.classDetail,
+    }),
+  },
+  mounted() {
+    console.log('classDetail = ', this.classDetail);
   },
   methods: {
     generateLink(fileName, data) {
@@ -516,6 +533,17 @@ export default {
       var link = document.createElement('a');
       link.download = 'my-image.png';
       link.href = image;
+      link.click();
+    },
+    async printThis() {
+      const el = this.$refs.printcontent;
+      const options = {
+        type: 'dataURL',
+      };
+      const printCanvas = await html2canvas(el, options);
+      const link = document.createElement('a');
+      link.setAttribute('download', `${uuid()}.png`);
+      link.setAttribute('href', printCanvas.toDataURL('image/png').replace('image/png', 'image/octet-stream'));
       link.click();
     },
   },

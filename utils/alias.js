@@ -1,6 +1,7 @@
 import path from 'path';
 const rootDir = path.resolve(__dirname, '..');
 const folders = [
+  'api',
   'assets',
   'components',
   'includes',
