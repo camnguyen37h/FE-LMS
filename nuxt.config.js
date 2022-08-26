@@ -4,6 +4,7 @@ export default {
   alias,
   env: {
     baseUrl: process.env.BASE_URL,
+    apiUrl: process.env.API_URL,
   },
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {

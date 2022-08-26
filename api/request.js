@@ -2,13 +2,13 @@ import axios from 'axios';
 import { getFromLocalStorage } from '@/utils/functions';
 
 export const requestWithJwt = axios.create({
-  baseURL: process.env.API_URL,
+  baseURL: process.env.API_URL || process.env.apiUrl,
   timeout: 10000,
   withCredentials: false,
 });
 
 export const requestWithoutJwt = axios.create({
-  baseURL: process.env.API_URL,
+  baseURL: process.env.API_URL || process.env.apiUrl,
   timeout: 10000,
   withCredentials: false,
 });

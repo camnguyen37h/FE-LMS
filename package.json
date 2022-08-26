@@ -25,7 +25,7 @@
     "qrcode.vue": "^1.7.0",
     "uuid": "^8.3.2",
     "vue": "^2.6.14",
-    "vue-focus-lock": "^2.0.0",
+    "vue-focus-lock": "^1.4.1",
     "vue-server-renderer": "^2.6.14",
     "vue-template-compiler": "^2.6.14",
     "vueperslides": "^3.4.2",

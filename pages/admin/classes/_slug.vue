@@ -10,7 +10,11 @@
           <span class="border rounded-sm border-green-100 w-5"></span>
           <span class="font-bold"
             >Trạng thái:
-            <span class="text-green-100" :class="{ 'text-red-500': doneCourseClassName }">{{ statusClass }}</span></span
+            <span
+              class="text-green-100"
+              :class="{ 'text-red-500': statusClass.status === 3 || statusClass.status === 4 }"
+              >{{ statusClass.label }}</span
+            ></span
           >
         </div>
         <div class="flex flex-col gap-y-3 justify-center">
@@ -57,6 +61,7 @@
             <div class="flex justify-end gap-y-1 gap-x-3 group-button-next-course">
               <button
                 class="px-10 py-3 min-w-[180px] rounded-lg border border-green-100 text-sm font-semibold capitalize"
+                @click="active = true"
               >
                 Hủy buổi học
               </button>
@@ -486,34 +491,79 @@
             </button>
           </div>
         </div>
+
+        <modal :show="active" @close="active = false" width="480">
+          <div class="flex flex-col gap-y-8 items-center justify-center">
+            <h2 class="font-bold text-xl">Hủy bài học</h2>
+            <div class="flex flex-col gap-y-5">
+              <div class="flex flex-col justify-center gap-y-3 gap-x-3 group-button-next-course">
+                <span class="font-bold">Lý do hủy bài học</span>
+                <div class="flex flex-col gap-y-3 justify-center">
+                  <p>
+                    <input type="checkbox" name="" />
+                    <span class="ml-3">Lorem, ipsum dolor sit amet consectetur adipisicing elit.</span>
+                  </p>
+                  <p>
+                    <input type="checkbox" name="" />
+                    <span class="ml-3">Lorem, ipsum dolor sit amet consectetur adipisicing elit.</span>
+                  </p>
+                  <p>
+                    <input type="checkbox" name="" />
+                    <span class="ml-3">Lorem, ipsum dolor sit amet consectetur adipisicing elit.</span>
+                  </p>
+                </div>
+              </div>
+
+              <div class="flex flex-col justify-center gap-y-3 gap-x-3 group-button-next-course">
+                <span class="font-bold">Lý do hủy bài học</span>
+                <textarea name="" rows="5" class="custom-result-cancel-course"></textarea>
+              </div>
+            </div>
+            <button
+              @click="handleUpdateStatusClass()"
+              class="py-2.5 min-w-[150px] rounded-lg border border-green-100 bg-green-100 text-white text-sm font-semibold capitalize"
+            >
+              gửi lý do
+            </button>
+          </div>
+        </modal>
       </article>
     </section>
   </div>
 </template>
 
 <script>
+import dayjs from 'dayjs';
+import { mapState, mapActions } from 'vuex';
+import { v1 as uuid } from 'uuid';
 import QrcodeVue from 'qrcode.vue';
 import html2canvas from 'html2canvas';
-import { v1 as uuid } from 'uuid';
-import { mapState } from 'vuex';
-import dayjs from 'dayjs';
+import Modal from '@/components/Modal';
 import DownloadIcon from '@/assets/icons/download.svg?inline';
 
 export default {
   layout: 'admin',
-  components: {
-    QrcodeVue,
-    DownloadIcon,
-  },
-  data() {
-    return {
-      data: [],
-      qrcodeValue: `${process.env.baseUrl}take-roll-call/`,
-    };
+  validate({ params, query }) {
+    if (!params.slug || !params.slug.trim()) {
+      return false;
+    }
+    return true;
   },
   async asyncData({ params, store }) {
     const classId = params.slug;
     await Promise.all([store.dispatch('classes/actFetchClassById', { classId })]);
+  },
+  data() {
+    return {
+      data: [],
+      active: false,
+      qrcodeValue: `${process.env.baseUrl}take-roll-call/`,
+    };
+  },
+  components: {
+    Modal,
+    QrcodeVue,
+    DownloadIcon,
   },
   mounted() {
     this.statusClass;
@@ -522,21 +572,32 @@ export default {
     ...mapState({
       classDetail: (state) => state.classes.classDetail,
     }),
-    doneCourseClassName() {
-      return dayjs().diff(this.classDetail.QRCode.endTime) > 0;
-    },
     statusClass() {
-      return dayjs().diff(this.classDetail.QRCode.endTime) > 0
-        ? 'Đã hoàn thành'
-        : dayjs().diff(this.classDetail.QRCode.startTime) > 0
-        ? 'Đang học'
-        : 'Chưa học';
+      let arrClass = {};
+      switch (true) {
+        case !this.classDetail.QRCode.active:
+          arrClass = { status: 4, label: 'Đã hủy' };
+          break;
+        case dayjs().diff(this.classDetail.QRCode.endTime) > 0:
+          arrClass = { status: 3, label: 'Đã hoàn thành' };
+          break;
+        case dayjs().diff(this.classDetail.QRCode.startTime) > 0 && dayjs().diff(this.classDetail.QRCode.endTime) < 0:
+          arrClass = { status: 2, label: 'Đang học' };
+          break;
+        default:
+          arrClass = { status: 1, label: 'Chưa học' };
+          break;
+      }
+      return arrClass;
     },
     generateQrCode() {
       return `${process.env.baseUrl}take-roll-call/`;
     },
   },
   methods: {
+    ...mapActions({
+      actUpdateStatusClass: 'classes/actUpdateStatusClass',
+    }),
     handleGenerateQrcode() {},
     async handleDownloadCanvasImage() {
       const el = this.$refs.printcontent;
@@ -548,6 +609,14 @@ export default {
       link.setAttribute('download', `${uuid()}.png`);
       link.setAttribute('href', printCanvas.toDataURL('image/png').replace('image/png', 'image/octet-stream'));
       link.click();
+    },
+    handleUpdateStatusClass() {
+      var data = { classId: this.classDetail._id, active: !this.classDetail.QRCode.active };
+      console.log('data = ', data);
+      this.actUpdateStatusClass(data).then(() => {
+        this.active = false;
+        console.log('handleUpdateStatusClass: classDetail = ', this.classDetail);
+      });
     },
   },
 };
@@ -602,6 +671,18 @@ button {
   &:after {
     content: '';
     padding-bottom: 100%;
+  }
+}
+.custom-result-cancel-course {
+  background: #f9f9f9;
+  outline: 1px solid #efefef;
+  border-radius: 10px;
+  padding: 14px 12px;
+
+  &:focus,
+  &:focus-visible {
+    outline: 1px solid #65af54;
+    caret-color: #65af54;
   }
 }
 </style>

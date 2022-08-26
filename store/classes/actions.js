@@ -1,11 +1,10 @@
-import { getClassDetail } from '@/api/classes';
+import { getClassDetail, updateStatusClass } from '@/api/classes';
 
 export default {
   async actFetchClassById({ commit }, { classId }) {
     try {
       await getClassDetail(classId).then(({ status, data }) => {
         if ((status === 200 || status === 201) && data) {
-          console.log('data = ', data);
           commit('setClassDetail', data);
           return {
             status: true,
@@ -19,8 +18,28 @@ export default {
       });
     } catch (e) {
       console.log(e.response);
-      // console.error(e.response.data.message);
-
+      return {
+        status: false,
+      };
+    }
+  },
+  async actUpdateStatusClass({ commit }, { classId, active }) {
+    try {
+      const params = { classId, active };
+      await updateStatusClass(params).then(({ data, status }) => {
+        if ((status === 200 || status === 201) && data) {
+          commit('setClassDetail', data);
+          return {
+            status: true,
+            data,
+          };
+        }
+        return {
+          status: false,
+        };
+      });
+    } catch (e) {
+      console.log(e.response);
       return {
         status: false,
       };
