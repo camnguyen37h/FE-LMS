@@ -5,5 +5,5 @@ export const getClassDetail = (id) => {
 };
 
 export const updateStatusClass = (params) => {
-  return requestWithoutJwt.put(`/class-status`, params);
+  return requestWithoutJwt.put('/class/update/enable', params);
 };

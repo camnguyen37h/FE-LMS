@@ -60,10 +60,15 @@
             </div>
             <div class="flex justify-end gap-y-1 gap-x-3 group-button-next-course">
               <button
+                v-if="statusClass.status === 1 || statusClass.status === 4"
                 class="px-10 py-3 min-w-[180px] rounded-lg border border-green-100 text-sm font-semibold capitalize"
+                :class="{
+                  'disabled:opacity-50': statusClass.status !== 1 && statusClass.status !== 4,
+                }"
+                :disabled="statusClass.status !== 1 && statusClass.status !== 4"
                 @click="active = true"
               >
-                Hủy buổi học
+                {{ statusTextClass }}
               </button>
               <button
                 class="px-10 py-3 min-w-[180px] rounded-lg border border-green-100 bg-green-100 text-white text-sm font-semibold capitalize"
@@ -494,10 +499,12 @@
 
         <modal :show="active" @close="active = false" width="480">
           <div class="flex flex-col gap-y-8 items-center justify-center">
-            <h2 class="font-bold text-xl">Hủy bài học</h2>
+            <h2 class="font-bold text-xl capitalize">
+              {{ statusTextClass }}
+            </h2>
             <div class="flex flex-col gap-y-5">
               <div class="flex flex-col justify-center gap-y-3 gap-x-3 group-button-next-course">
-                <span class="font-bold">Lý do hủy bài học</span>
+                <span class="font-bold">Lý do {{ statusTextClass }}</span>
                 <div class="flex flex-col gap-y-3 justify-center">
                   <p>
                     <input type="checkbox" name="" />
@@ -515,7 +522,7 @@
               </div>
 
               <div class="flex flex-col justify-center gap-y-3 gap-x-3 group-button-next-course">
-                <span class="font-bold">Lý do hủy bài học</span>
+                <span class="font-bold">Lý do {{ statusTextClass }}</span>
                 <textarea name="" rows="5" class="custom-result-cancel-course"></textarea>
               </div>
             </div>
@@ -557,7 +564,7 @@ export default {
     return {
       data: [],
       active: false,
-      qrcodeValue: `${process.env.baseUrl}take-roll-call/`,
+      qrcodeValue: '',
     };
   },
   components: {
@@ -565,8 +572,10 @@ export default {
     QrcodeVue,
     DownloadIcon,
   },
-  mounted() {
-    this.statusClass;
+  created() {
+    this.handleGenerateQrcode();
+
+    console.log('this.qrcodeValue = ', this.qrcodeValue);
   },
   computed: {
     ...mapState({
@@ -578,10 +587,10 @@ export default {
         case !this.classDetail.QRCode.active:
           arrClass = { status: 4, label: 'Đã hủy' };
           break;
-        case dayjs().diff(this.classDetail.QRCode.endTime) > 0:
+        case dayjs().unix() > this.classDetail.QRCode.endTime:
           arrClass = { status: 3, label: 'Đã hoàn thành' };
           break;
-        case dayjs().diff(this.classDetail.QRCode.startTime) > 0 && dayjs().diff(this.classDetail.QRCode.endTime) < 0:
+        case dayjs().unix() > this.classDetail.QRCode.startTime && dayjs().unix() < this.classDetail.QRCode.endTime:
           arrClass = { status: 2, label: 'Đang học' };
           break;
         default:
@@ -589,6 +598,9 @@ export default {
           break;
       }
       return arrClass;
+    },
+    statusTextClass() {
+      return this.statusClass.status === 1 ? 'hủy buổi học' : this.statusClass.status === 4 ? 'mở lớp' : '';
     },
     generateQrCode() {
       return `${process.env.baseUrl}take-roll-call/`;
@@ -598,7 +610,9 @@ export default {
     ...mapActions({
       actUpdateStatusClass: 'classes/actUpdateStatusClass',
     }),
-    handleGenerateQrcode() {},
+    handleGenerateQrcode() {
+      return (this.qrcodeValue = `${process.env.baseUrl}take-roll-call/?class-id=${this.classDetail._id}&active=${this.classDetail.QRCode.active}&start-time=${this.classDetail.QRCode.startTime}&end-time=${this.classDetail.QRCode.endTime}`);
+    },
     async handleDownloadCanvasImage() {
       const el = this.$refs.printcontent;
       const options = {
@@ -611,12 +625,12 @@ export default {
       link.click();
     },
     handleUpdateStatusClass() {
-      var data = { classId: this.classDetail._id, active: !this.classDetail.QRCode.active };
-      console.log('data = ', data);
-      this.actUpdateStatusClass(data).then(() => {
-        this.active = false;
-        console.log('handleUpdateStatusClass: classDetail = ', this.classDetail);
-      });
+      let data = { idClass: this.classDetail._id, active: !this.classDetail.QRCode.active };
+      setTimeout(async () => {
+        await this.actUpdateStatusClass(data).then(() => {
+          this.active = false;
+        });
+      }, 200);
     },
   },
 };

@@ -23,11 +23,12 @@ export default {
       };
     }
   },
-  async actUpdateStatusClass({ commit }, { classId, active }) {
+  async actUpdateStatusClass({ commit }, { idClass, active }) {
     try {
-      const params = { classId, active };
+      const params = { idClass, active };
       await updateStatusClass(params).then(({ data, status }) => {
         if ((status === 200 || status === 201) && data) {
+          data = { ...data, QRCode: { ...data.QRCode, active: active } };
           commit('setClassDetail', data);
           return {
             status: true,

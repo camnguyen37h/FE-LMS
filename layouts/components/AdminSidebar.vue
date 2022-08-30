@@ -42,6 +42,7 @@ export default {
         { name: 'Classes', icon: DiscountIcon, path: '/admin/classes' },
         { name: 'Teachers', icon: GraphIcon, path: '/admin/teachers' },
         { name: 'Students', icon: MessageIcon, path: '/admin/students' },
+        { name: 'Attendance', icon: MessageIcon, path: '/take-roll-call' },
       ],
     };
   },
@@ -49,7 +50,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-a.nuxt-link-exact-active.nuxt-link-active {
+a.nuxt-link-exact-active,
+a.nuxt-link-active {
   .active-menu {
     @apply bg-gray-600 rounded-l-xl relative before:absolute before:w-4 before:h-8 before:-top-8 before:rounded-br-xl before:right-0 before:shadow-inverse-top after:absolute after:w-4 after:h-8 after:-bottom-8 after:rounded-tr-xl after:right-0 after:shadow-inverse-bottom;
 
