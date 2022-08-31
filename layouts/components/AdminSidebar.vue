@@ -38,7 +38,7 @@ export default {
     return {
       activeMenu: 'Dashboard',
       menus: [
-        { name: 'Dashboard', icon: HomeIcon, path: '/admin' },
+        // { name: 'Dashboard', icon: HomeIcon, path: '/admin' },
         { name: 'Classes', icon: DiscountIcon, path: '/admin/classes' },
         { name: 'Teachers', icon: GraphIcon, path: '/admin/teachers' },
         { name: 'Students', icon: MessageIcon, path: '/admin/students' },

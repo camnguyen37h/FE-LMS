@@ -25,7 +25,7 @@
             reiciendis est.</span
           >
 
-          <span class="font-bold">Mô tả khóa học</span>
+          <span class="font-bold">Mô tả bài học</span>
           <span class="text-justify"
             >Lorem ipsum dolor sit, amet consectetur adipisicing elit. Accusantium ratione iste totam recusandae
             tenetur, cum reiciendis ducimus corrupti vel nam aspernatur quia, corporis minima ex consequatur. Reiciendis
@@ -611,7 +611,7 @@ export default {
       actUpdateStatusClass: 'classes/actUpdateStatusClass',
     }),
     handleGenerateQrcode() {
-      return (this.qrcodeValue = `${process.env.baseUrl}take-roll-call/?class-id=${this.classDetail._id}&active=${this.classDetail.QRCode.active}&start-time=${this.classDetail.QRCode.startTime}&end-time=${this.classDetail.QRCode.endTime}`);
+      return (this.qrcodeValue = `${process.env.baseUrl}take-roll-call/?class_id=${this.classDetail._id}&active=${this.classDetail.QRCode.active}&start_time=${this.classDetail.QRCode.startTime}&end_time=${this.classDetail.QRCode.endTime}`);
     },
     async handleDownloadCanvasImage() {
       const el = this.$refs.printcontent;

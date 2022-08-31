@@ -22,7 +22,7 @@ export default {
   css: ['@/assets/css/main.scss', 'aos/dist/aos.css'],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [{ src: '@/plugins/aos.client', ssr: false }],
+  plugins: [{ src: '@/plugins/aos.client', ssr: false }, '@/plugins/vee-validate'],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -43,12 +43,19 @@ export default {
     '@nuxtjs/pwa',
     // https://go.nuxtjs.dev/content
     '@nuxt/content',
+    '@nuxtjs/toast',
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
     baseURL: process.env.API_URL,
+  },
+
+  toast: {
+    position: 'top-right',
+    duration: 2000,
+    register: [],
   },
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
@@ -95,5 +102,6 @@ export default {
       }
     },
     vendor: ['aos'],
+    transpile: ['vee-validate/dist/rules'],
   },
 };
