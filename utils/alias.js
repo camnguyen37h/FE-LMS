@@ -15,6 +15,7 @@ const folders = [
   'config',
   'server',
   'utils',
+  'vendor',
 ];
 const aliases = {};
 

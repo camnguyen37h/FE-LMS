@@ -20,10 +20,13 @@
     "big.js": "^6.2.1",
     "core-js": "^3.19.3",
     "dayjs": "^1.11.5",
+    "element-ui": "^2.13.2",
+    "file-saver": "^2.0.1",
     "html2canvas": "^1.4.1",
     "luxon": "^3.0.1",
     "nuxt": "^2.15.8",
     "qrcode.vue": "^1.7.0",
+    "script-loader": "^0.7.2",
     "uuid": "^8.3.2",
     "vee-validate": "^3.0.0",
     "vue": "^2.6.14",
@@ -31,7 +34,8 @@
     "vue-server-renderer": "^2.6.14",
     "vue-template-compiler": "^2.6.14",
     "vueperslides": "^3.4.2",
-    "webpack": "^4.46.0"
+    "webpack": "^4.46.0",
+    "xlsx": "^0.14.1"
   },
   "devDependencies": {
     "@babel/core": "^7.18.10",

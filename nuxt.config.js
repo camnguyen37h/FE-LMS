@@ -19,10 +19,10 @@ export default {
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: ['@/assets/css/main.scss', 'aos/dist/aos.css'],
+  css: ['@/assets/css/main.scss', '@/assets/css/element-ui.css', 'aos/dist/aos.css'],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [{ src: '@/plugins/aos.client', ssr: false }, '@/plugins/vee-validate'],
+  plugins: [{ src: '@/plugins/aos.client', ssr: false }, '@/plugins/vee-validate', '@/plugins/element-ui'],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -102,6 +102,6 @@ export default {
       }
     },
     vendor: ['aos'],
-    transpile: ['vee-validate/dist/rules'],
+    transpile: ['vee-validate/dist/rules', /^element-ui/],
   },
 };

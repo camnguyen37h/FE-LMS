@@ -1,21 +1,27 @@
 <template>
-  <div class="wp-admin">
-    <h1>Layout Teacher</h1>
-    <AdminHeader />
-    <div class="content">
-      <Nuxt />
-    </div>
+  <div class="flex w-full min-h-screen font-sans bg-gray-600 flex-col">
+    <AdminSidebar />
+    <main class="flex justify-center items-center px-12 py-16 ml-24 overflow-hidden">
+      <div class="max-w-[1170px] w-full">
+        <Nuxt />
+      </div>
+    </main>
     <AdminFooter />
   </div>
 </template>
 
 <script>
-import AdminHeader from '@/layouts/components/AdminHeader';
+import AdminSidebar from '@/layouts/components/AdminSidebar';
 import AdminFooter from '@/layouts/components/AdminFooter';
 
 export default {
+  data() {
+    return {
+      pageName: '',
+    };
+  },
   components: {
-    AdminHeader,
+    AdminSidebar,
     AdminFooter,
   },
 };
